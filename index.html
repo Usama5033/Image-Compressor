@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Compress - Image Compressor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-900 text-white antialiased">
+
+    <header class="bg-slate-900/70 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-3-3-3 3"/><path d="m9 19 3 3 3-3"/><path d="M5 15v-1a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1"/><path d="M19 9v1a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9"/></svg>
+                    <span class="ml-3 text-xl font-bold tracking-tight text-slate-200">Quick Compress</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" id="nav-home" class="text-slate-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Compress Image</a>
+                        <a href="#" id="nav-contact" class="text-slate-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 leading-tight">
+                The Ultimate Image Compressor
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
+                Reduce file sizes for your images quickly and easily without compromising quality. Perfect for sharing and storing.
+            </p>
+        </div>
+
+        <div id="app" class="mt-12 max-w-3xl mx-auto bg-slate-800/50 rounded-2xl shadow-2xl overflow-hidden border border-slate-700 backdrop-blur-sm">
+            
+            <div id="upload-view" class="p-6 md:p-8">
+                <div id="drop-zone" class="flex justify-center items-center w-full h-64 border-2 border-dashed border-slate-600 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-slate-800 transition-all duration-300">
+                    <div class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-slate-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                        <p class="mt-4 text-slate-400">
+                            <span class="font-semibold text-blue-400">Click to upload</span> or drag and drop
+                        </p>
+                        <p class="text-xs text-slate-500 mt-1">PNG, JPG, or WEBP</p>
+                    </div>
+                </div>
+                <input type="file" id="file-input" class="hidden" accept=".png,.jpg,.jpeg,.webp">
+                <div class="text-center mt-6">
+                    <button id="upload-button" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-600/20">
+                        Select File
+                    </button>
+                </div>
+            </div>
+
+            <div id="options-view" class="hidden p-6 md:p-8 fade-in">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-shrink-0 w-full md:w-48 h-64 bg-slate-900 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img id="image-preview" src="" alt="Image Preview" class="hidden max-h-full max-w-full">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-semibold text-slate-200">Compression Options</h3>
+                        <p id="original-size" class="text-sm text-slate-400 mb-4"></p>
+                        
+                        <div id="image-options">
+                                <div class="mb-4">
+                                    <label for="image-size-input" class="block text-sm font-medium text-slate-300">Target File Size</label>
+                                    <div class="flex items-center gap-2 mt-2">
+                                         <input type="number" id="image-size-input" value="500" class="block w-full bg-slate-700 border border-slate-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-white">
+                                         <select id="image-size-unit" class="block bg-slate-700 border border-slate-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-white">
+                                             <option value="KB" selected>KB</option>
+                                             <option value="MB">MB</option>
+                                         </select>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-2">The final file size will be close to this target, but may vary.</p>
+                                </div>
+                                <div>
+                                    <label for="format-select" class="block text-sm font-medium text-slate-300">Output Format</label>
+                                    <select id="format-select" class="mt-2 block w-full bg-slate-700 border border-slate-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-white">
+                                        <option value="jpeg">JPG</option>
+                                        <option value="png">PNG</option>
+                                        <option value="webp">WEBP</option>
+                                    </select>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                    <button id="compress-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-3-3-3 3"/><path d="m9 19 3 3 3-3"/><path d="M5 15v-1a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1"/><path d="M19 9v1a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9"/></svg>
+                        Compress
+                    </button>
+                    <button id="start-over-button" class="w-full bg-slate-600 text-slate-200 font-semibold py-3 px-6 rounded-lg hover:bg-slate-700 transition-all duration-300">
+                        Choose Another File
+                    </button>
+                </div>
+            </div>
+
+            <div id="loading-view" class="hidden p-6 md:p-8 text-center fade-in">
+                <div class="loader mx-auto"></div>
+                <p class="mt-4 text-slate-300 font-medium">Compressing your file...</p>
+                <p class="text-sm text-slate-500">This may take a moment for large files.</p>
+            </div>
+
+            <div id="download-view" class="hidden p-6 md:p-8 text-center fade-in">
+                <svg class="mx-auto h-16 w-16 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <h3 class="mt-4 text-2xl font-bold text-slate-200">Compression Complete!</h3>
+                <div class="mt-4 bg-slate-900 rounded-lg p-4 max-w-sm mx-auto">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-400">Original Size:</span>
+                        <span id="result-original-size" class="font-mono text-slate-200"></span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm mt-2">
+                        <span class="text-slate-400">Compressed Size:</span>
+                        <span id="result-compressed-size" class="font-mono text-emerald-400"></span>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-700 flex justify-between items-center text-lg">
+                        <span class="text-slate-300 font-semibold">You saved:</span>
+                        <span id="result-savings" class="font-bold text-emerald-400"></span>
+                    </div>
+                </div>
+                <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                    <a id="download-button" href="#" download="compressed_file" class="w-full bg-emerald-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                        Download
+                    </a>
+                    <button id="compress-another-button" class="w-full bg-slate-600 text-slate-200 font-semibold py-3 px-6 rounded-lg hover:bg-slate-700 transition-all duration-300">
+                        Compress Another File
+                    </button>
+                </div>
+            </div>
+
+            <div id="contact-view" class="hidden p-6 md:p-8 fade-in text-center">
+                <h3 class="text-2xl font-bold text-slate-200 mb-6">Get in Touch</h3>
+                <div class="max-w-sm mx-auto bg-slate-900 rounded-lg p-6 shadow-lg border border-slate-700">
+                    <div class="flex items-center justify-center mb-4">
+                        <svg class="h-6 w-6 text-green-500 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2.87c-5.46 0-9.92 4.46-9.92 9.92 0 1.95.58 3.82 1.6 5.43l-.97 3.56 3.65-.96c1.55.85 3.32 1.3 5.06 1.3 5.46 0 9.92-4.46 9.92-9.92s-4.46-9.92-9.92-9.92zm3.62 13.56s-.1.05-.2.05c-.17 0-.33-.06-.5-.15-.72-.36-4.35-2.14-4.63-2.26-.2-.09-.37-.15-.52.15-.17.37-.67.86-.82 1.03-.15.17-.3.19-.55.07-.25-.12-1.05-.39-2.02-1.25-.74-.66-1.24-1.46-1.38-1.64-.15-.2-.02-.31.13-.48.13-.15.29-.36.44-.54.15-.17.2-.3.29-.48.1-.19.06-.34-.02-.48-.09-.15-.52-1.25-.72-1.72-.19-.48-.38-.4-.52-.41-.15 0-.31-.02-.48-.02-.15-.01-.44.02-.67.31-.22.28-.86.85-.86 2.07 0 1.23.88 2.4 1 2.58.12.2.82 1.25 1.98 1.76.92.4 1.76.63 2.37.79.62.17 1.15.15 1.58.1.48-.05.88-.2.95-.3.07-.09.2-.55.12-1.4z"/></svg>
+                        <a href="https://wa.me/03483536792" target="_blank" class="text-slate-300 hover:text-blue-400 transition-colors duration-200">WhatsApp: 03483536792</a>
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <svg class="h-6 w-6 text-red-500 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10.027 12l-8.024 6.116C2.012 18.064 2 18.033 2 18V6c0-.033.012-.064.003-.116zM22 6v12c0 .033-.012.064-.003.116L13.973 12l8.024-6.116C21.988 5.936 22 5.967 22 6zm-2-2a2 2 0 00-2-2H4a2 2 0 00-2 2v.116l10 7.2L22 4.116V4a2 2 0 00-2-2zM2 20a2 2 0 002 2h16a2 2 0 002-2v-.116L14 14.8L2 20.884V20z"/></svg>
+                        <a href="mailto:usamazakir5033@gmail.com" class="text-slate-300 hover:text-blue-400 transition-colors duration-200">Email: usamazakir5033@gmail.com</a>
+                    </div>
+                </div>
+                 <button id="contact-back-button" class="mt-8 bg-slate-600 text-slate-200 font-semibold py-3 px-6 rounded-lg hover:bg-slate-700 transition-all duration-300">
+                    Back to Compressor
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="custom-alert" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 fade-in">
+        <div class="bg-slate-800 rounded-lg shadow-xl p-6 max-w-sm w-full text-center border border-slate-700">
+            <p id="alert-message" class="text-slate-300"></p>
+            <button id="alert-ok-button" class="mt-4 bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
